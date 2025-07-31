@@ -1,5 +1,6 @@
 # src/cosmonaut/cli/base.py
 import typer
+from typing import Optional
 
 # Import the ssh command group
 from cosmonaut.cli.ssh import app as ssh_app
@@ -7,6 +8,8 @@ from cosmonaut.cli.web import app as web_app
 from cosmonaut.cli.map import app as map_app
 from cosmonaut.cli.investigate import app as investigate_app
 from cosmonaut.cli.discover import app as discover_app
+from cosmonaut.explain.explain import explain_app
+from cosmonaut.meta import __version__, __app_name__
 
 from rich.table import Table
 from rich.console import Console
@@ -21,6 +24,7 @@ app.add_typer(web_app, name="web")
 app.add_typer(investigate_app, name="investigate")
 app.add_typer(map_app, name="map")
 app.add_typer(discover_app, name="discover")
+app.add_typer(explain_app, name="explain")
 
 
 @app.command("inventory")
@@ -51,6 +55,21 @@ def inventory():
     console.print(table)
 
 
-@app.command()
-def version():
-    print("v0.1.0")
+def version_callback(value: bool):
+    if value:
+        typer.echo(f"{__app_name__} v{__version__}")
+        raise typer.Exit()
+
+
+@app.callback()
+def main(
+    version: Optional[bool] = typer.Option(
+        None,
+        "--version",
+        help="Show the application's version and exit.",
+        callback=version_callback,
+        is_eager=True,
+    )
+):
+    """Application description and docs."""
+    pass

@@ -1,5 +1,8 @@
+from cosmonaut.cli.base import app
+
+
 def main():
-    print("Hello from my project!")
+    app()
 
 
 if __name__ == "__main__":

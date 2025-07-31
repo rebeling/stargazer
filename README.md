@@ -41,6 +41,14 @@ cd stargazer
 uv pip install -e .
 ```
 
+### 2. See Commands
+```bash
+cosmonaut --help
+```
+
+---
+
+
 ## Helper
 
 Run for all hosts in data/servers.json.
